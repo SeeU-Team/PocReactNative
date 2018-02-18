@@ -1,26 +1,45 @@
 import React from 'react';
-import { Text, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import {TabNavigator, TabBarBottom, StackNavigator} from 'react-navigation';
 import TeamWall from "./app/TeamWall";
 import Messages from "./app/Messages";
 import NightCenter from "./app/NightCenter";
+import Details from "./app/Details";
 
-class DetailsScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Details!</Text>
-      </View>
-    );
+const TeamWallStack = StackNavigator(
+  {
+    TeamWall: {screen: TeamWall},
+    Details: {screen: Details},
+  },
+  {
+    initialRouteName: 'TeamWall',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#f4511e',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }
   }
-}
+);
+
+const MessagesStack = StackNavigator({
+  Messages: { screen: Messages },
+  Details: { screen: Details },
+});
+
+const NightCenterStack = StackNavigator({
+  NightCenter: { screen: NightCenter },
+  Details: { screen: Details },
+});
 
 export default TabNavigator(
   {
-    TeamWall: { screen: TeamWall },
-    Messages: { screen: Messages },
-    NightCenter: { NightCenter: NightCenter },
+    TeamWall: { screen: TeamWallStack },
+    Messages: { screen: MessagesStack },
+    NightCenter: { screen: NightCenterStack },
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -28,9 +47,11 @@ export default TabNavigator(
         const { routeName } = navigation.state;
         let iconName;
         if (routeName === 'TeamWall') {
-          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+          iconName = `ios-people${focused ? '' : '-outline'}`;
         } else if (routeName === 'Messages') {
-          iconName = `ios-options${focused ? '' : '-outline'}`;
+          iconName = `ios-chatbubbles${focused ? '' : '-outline'}`;
+        } else if (routeName === 'NightCenter') {
+          iconName = `ios-pulse${focused ? '' : '-outline'}`;
         }
 
         // You can return any component that you like here! We usually use an

@@ -1,13 +1,24 @@
 import React from 'react';
-import { View, ScrollView, FlatList } from 'react-native';
+import {View, ScrollView, FlatList, StyleSheet, Image} from 'react-native';
 import CarouselElement from "./CarouselElement";
-import StatusBarBackground from "./StatusBarBackground";
 
 export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    title: 'TeamWall',
+    headerTitle: (
+      <Image
+        source={require('../resources/logo.png')}
+        resizeMode="contain"
+        style={{height: 40}}
+      />
+    ),
+  };
+
   render() {
+    const component = this;
     return (
       <ScrollView style={styles.container}>
-        <StatusBarBackground/>
+        {/*<StatusBarBackground/>*/}
         {/*<StatusBar
           backgroundColor="red"
           barStyle="light-content"
@@ -28,7 +39,7 @@ export default class HomeScreen extends React.Component {
               {key: 6, size: 970, name: 'Loft, Madrid'},
               {key: 7, size: 100, name: 'Loft, Los Angeles'},
             ]}
-            renderItem={({item}) => <CarouselElement size={item.size} name={item.name}/>}
+            renderItem={({item}) => <CarouselElement size={item.size} name={item.name} navigation={component.props.navigation}/>}
             horizontal={true}
             style={{flex: 1}}
           />
